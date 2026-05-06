@@ -37,20 +37,6 @@ const createOrder = async (req, res) => {
       throw new Error('No products found in the cart');
     }
 
-    const foundProductIds = products.map(product => product.product_id);
-
-    const missingProductIds = productIds.filter(
-      id => !foundProductIds.includes(id)
-    );
-
-    if (missingProductIds.length > 0) {
-      await t.rollback();
-      return res.status(404).json({
-        message: 'Some products were not found',
-        missingProducts: missingProductIds
-      });
-    }
-
     const product_data = [];
     let total_amount = 0;
 

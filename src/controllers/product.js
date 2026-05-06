@@ -1,6 +1,7 @@
 const {Product} =  require('../../models')
 const {v4: uuidv4} = require('uuid')
 
+
 const createProduct = async (req, res) => {
     const {product_name, image_url, unit, unit_price, discount_percentage, stock} = req.body
     try{
@@ -30,19 +31,13 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req ,res)=>{
     try {
         const {product_id} = req.params
-        const {product_name, image_url, unit, unit_price, discount_percentage,stock} = req.body
+        const {body} = req
         const product = await Product.findOne({where:{product_id}})
         if(!product){
             throw new Error('Product not found')
         }
-        await Product.update({
-            product_name: product_name ?? product.product_name,
-            image_url: image_url ?? product.image_url,
-            unit: unit ?? product.unit,
-            unit_price: unit_price ?? product.unit_price,
-            discount_percentage: discount_percentage ?? product.discount_percentage,
-            stock: stock ?? product.stock
-        }, {where:{product_id}})
+        await Product.update(
+            body , {where:{product_id}})
         res.status(200).json({
             status: true,
             message: 'Product updated successfully'
@@ -63,6 +58,7 @@ const deleteProduct = async (req, res) => {
         if(!product){
             throw new Error('Product not found')
         }
+        
         await Product.destroy({where:{product_id}})
         res.status(200).json({
             status: true,
