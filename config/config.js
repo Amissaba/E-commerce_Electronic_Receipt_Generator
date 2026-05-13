@@ -7,7 +7,7 @@ const shared = {
 module.exports = {
   "development": {
     ...shared,
-    "username": process.env.DB_USER || "root",
+    "username": process.env.DB_USERNAME || "root",
     "password": process.env.DB_PASSWORD || null,
     "database": process.env.DB_NAME || "database_development",
     "port": process.env.DB_PORT
